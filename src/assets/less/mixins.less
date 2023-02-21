@@ -1,0 +1,56 @@
+/*
+ * @Author: 武文帅 15696141050@163.com
+ * @Date: 2022-12-31 23:15:07
+ * @LastEditors: wws1993 15696141050@163.com
+ * @LastEditTime: 2023-02-21 15:54:14
+ * @FilePath: \moretime-chat-front\src\assets\less\mixins.less
+ * @Description: less-mixin
+ * IE6腦殘粉
+ * Copyright (c) 2022 by wws1993<15696141050@163.com>, All Rights Reserved. 
+ */
+
+
+.flex(@x:center;@y:center){display:flex;justify-content:@x;align-items:@y;}
+.flex-col(@x:center;@y:center){display:flex;flex-direction:column;justify-content:@x;align-items:@y;}
+
+.bdr(@color:#fff){border:1px solid @color;}
+.bdra(@r:4px){border-radius:@r;}
+
+.abs{position:absolute;}
+.abs(@x){position:absolute;top:@x;left:@x;right:@x;bottom:@x;}
+.abs(@y;@x){position:absolute;top:@y;left:@x;right:@x;bottom:@y;}
+.abs(@t;@m;@b){position:absolute;top:@t;left:@m;right:@m;bottom:@b;}
+.abs(@t;@r;@b;@l){position:absolute;top:@t;left:@l;right:@r;bottom:@b;}
+
+.fix{position:fixed;}
+.fix(@x){position:fixed;top:@x;left:@x;right:@x;bottom:@x;}
+.fix(@y;@x){position:fixed;top:@y;left:@x;right:@x;bottom:@y;}
+.fix(@t;@m;@b){position:fixed;top:@t;left:@m;right:@m;bottom:@b;}
+.fix(@t;@r;@b;@l){position:fixed;top:@t;left:@l;right:@r;bottom:@b;}
+
+.adapt(@w){width:calc(@w / @designWidth * 100%)}
+.adapt(@w;@h){width:calc(@w / @designWidth * 100%); height:calc(@h / @designHeight * 100%);}
+
+.clearfix::after{content:'';display:block;clear:both;}
+
+.els{white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.elss(@row:2){
+  overflow:hidden;
+  display:-webkit-box;//将元素设为盒子伸缩模型显示
+  -webkit-box-orient: vertical;//伸缩方向设为垂直方向
+  -webkit-line-clamp: @row;//超出3行隐藏，并显示省略号
+}
+
+.hover{transition:var(--ani); cursor:pointer; opacity:1;
+  &:hover{opacity:.8;}
+}
+.btn{.flex(); .hover(); border:1px solid #B3B3B3; border-radius:14px;}
+.btn-s{.btn(); border-radius:9px;}
+
+// 盒子hover
+.box-hover{transition:.3s; cursor:pointer;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  &:hover{.shadow(); border-color:transparent;}
+}
+// 阴影
+.shadow{box-shadow:0px 0px 18px #0002;}

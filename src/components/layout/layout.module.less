@@ -1,0 +1,10 @@
+@import (reference) url('@/less/mixins.less');
+
+.layout{.flex-col(flex-start); width:100%; height:100%;
+  --header-height:60px;
+
+  >div{width:100%}
+  &-header{height:var(--header-height); }
+  &-view{flex:1; overflow-y:auto;}
+  &-footer{height:var(--header-height);}
+}

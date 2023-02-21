@@ -1,0 +1,43 @@
+@import (reference) url('@less/mixins.less');
+
+@part-height:.9rem;
+
+@font-title: .36rem;
+@font-main: .32rem;
+@font-sub: .24rem;
+
+@space-main: .24rem;
+@space-sub: .16rem;
+
+@border-radius: .16rem;
+
+@white: #fff;
+@primary: #2196f3;
+@success: #4caf50;
+@danger: #f44336;
+@warn: #ff9800;
+
+.chat{.flex-col(); height:100%;
+  >div{width:100%;}
+
+  .header{.flex(); .shadow(); height:@part-height;
+    font-size:@font-title;
+  }
+
+  .view{flex:1; overflow:auto; padding:@space-main;}
+
+  .input{.flex(flex-end;flex-end); .shadow();
+    gap:@space-main; width:100%; min-height:@part-height; padding:@space-sub @space-main;
+    .commonInput{
+      padding:@space-sub; border-radius:@border-radius;
+      line-height:1.5; font-size:@font-sub; min-height:3em;
+    }
+
+    .area{flex:1; position:relative; .commonInput();}
+    .areaInput{.abs(0); .commonInput(); border:1px solid #0003;}
+    .areaSpan{.areaInput(); opacity:0; pointer-events:none}
+    .send{.flex(); font-size:@font-sub; min-width:1.3rem; height:3em;
+      border-radius:@border-radius; background:@success; color:@white;
+    }
+  }
+}
