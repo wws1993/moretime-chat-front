@@ -1,28 +1,54 @@
 import useMount from '@/scripts/hooks/useMount';
+import useUser from '@/scripts/hooks/useUser';
 import sys from '@less/pages/chat.module.less'
 import cx from 'classnames'
-import { createRef, useEffect, useState } from 'react'
+import { createRef, useState } from 'react'
 
 type Dialogue = {
   msg: string;
+  user: string;
   t: number;
 }
 
 export default () => {
   const [dialogues, setDialogues] = useState<Dialogue[]>([])
   const [words, setWords] = useState<string>('')
+  const {user} = useUser()
+
   const inputRef = createRef<HTMLTextAreaElement>()
+  const viewRef = createRef<HTMLDivElement>()
 
   const hooks = {
+    /** 同步对话 */
+    syncDialogues(info: Dialogue) {
+      dialogues.push(info)
+
+      viewRef.current?.scrollTo({
+        top: viewRef.current.children[0]?.clientHeight * 2,
+        behavior: 'smooth',
+      })
+
+      setDialogues([...dialogues])
+    },
     /** 自动聚焦 */
     autoFocus() { inputRef.current?.focus() },
     /** 提交发言 */
     submit() {
-      console.log(inputRef.current?.value);
+      const msg = inputRef.current?.value!;
+      hooks.syncDialogues({msg: msg, user: user.id, t: Date.now()});
+
+      (inputRef.current!).value = '';
+      setWords('')
+
+      setTimeout(() => {
+        const _msg = msg.length < 13 ? msg : `${msg.slice(0, 6)}...${msg.slice(msg.length - 4)}`
+
+        hooks.syncDialogues({msg: `I get it! ${_msg}`, user: 'Bot', t: Date.now()})
+      }, 1000);
     },
     /** 键盘按下监听 */
     listenKeybroad(ev: React.KeyboardEvent) {
-      if (ev.key === 'Enter' && ev.shiftKey) {
+      if (ev.key === 'Enter' && ev.ctrlKey) {
         ev.preventDefault()
         hooks.submit()
       }
@@ -34,9 +60,19 @@ export default () => {
   return <div className={sys.chat}>
     <div className={sys.header}>ChatBot</div>
 
-    <div className={sys.view}>
-      {dialogues.map((item, k) => <div className={sys.item}>
-      </div>)}
+    <div className={sys.view} ref={viewRef}>
+      <section>
+        {dialogues.map((item, k) => <div
+          key={k}
+          className={cx(
+            sys.item,
+            item.user === user.id && sys.self,
+          )}
+        >
+          <span className={sys.avatar}>{item.user}</span>
+          <span className={sys.msg}>{item.msg}</span>
+        </div>)}
+      </section>
     </div>
 
     <div className={sys.input}>

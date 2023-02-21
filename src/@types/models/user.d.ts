@@ -1,5 +1,5 @@
 declare namespace T {
   interface User {
-    name: ''
+    id: string
   }
 }
