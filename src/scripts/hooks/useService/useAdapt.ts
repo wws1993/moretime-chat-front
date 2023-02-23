@@ -40,7 +40,7 @@ export default (): Adapt => {
       }
       
       setLoading(true)
-      axiosInstance(option).then(resolve).catch(err => {
+      axiosInstance(option).then(resolve).catch((err: any) => {
         console.log(err);
         
         const errStatus = err.response?.status || err.status
@@ -65,7 +65,7 @@ export default (): Adapt => {
 
 /** 设置请求拦截器 */
 export const setBaseResquestInterceptors: (baseConfig: (config: AxiosRequestConfig) => AxiosRequestConfig) => void = (createBaseConfig) => {
-  axiosInstance.interceptors.request.use(async config => {  
+  axiosInstance.interceptors.request.use(async (config: any) => {  
     const baseConfig = createBaseConfig(config)
     let key: keyof AxiosRequestConfig;
 

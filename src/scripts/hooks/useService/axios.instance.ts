@@ -8,11 +8,7 @@ const axiosInstance = Axios.create({
 })
 
 axiosInstance.interceptors.request.use(config => {
-  /** 生成CancelToken，用于取消请求 */
-  const source = Axios.CancelToken.source()
-
   config.headers = config.headers || {}
-  config.cancelToken = source.token
 
   return config
 })
