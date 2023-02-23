@@ -1,5 +1,6 @@
 import useUser from "../useUser";
 import useAdapt from "./useAdapt";
+import './interceptor.response'
 
 export default () => {
   const { user } = useUser()

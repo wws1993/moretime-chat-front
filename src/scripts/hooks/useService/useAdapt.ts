@@ -20,10 +20,6 @@ interface Adapt {
   Update: TServerFunction;
   /** put请求 */
   Put: TServerFunction;
-  /** 设置请求拦截器 */
-  setBaseResquestInterceptors: (baseConfig: (config: AxiosRequestConfig) => AxiosRequestConfig) => void;
-  /** 设置响应拦截器 */
-  setBaseResponseInterceptors: <T = any>(interceptor: (response: T) => Promise<any>) => void;
 }
 
 type TRequestFunction = (url: string, data?: any, method?: string, config?: RequestConfig) => Promise<any>
@@ -42,7 +38,8 @@ export default (): Adapt => {
         option.data = undefined
         option.params = data
       }
-  
+      
+      setLoading(true)
       axiosInstance(option).then(resolve).catch(err => {
         console.log(err);
         
@@ -52,7 +49,7 @@ export default (): Adapt => {
         if (errStatus !== 200) {
           toast.error(errMsg)
         }
-      })
+      }).finally(() => setLoading(false))
     });
   }
 
@@ -63,22 +60,25 @@ export default (): Adapt => {
     Post:   (url, data, config) => ajax(url, data, 'post', config),
     Delete: (url, data, config) => ajax(url, data, 'delete', config),
     Update: (url, data, config) => ajax(url, data, 'update', config),
-    setBaseResquestInterceptors: (createBaseConfig) => {
-      axiosInstance.interceptors.request.use(async config => {  
-        const baseConfig = createBaseConfig(config)
-        let key: keyof AxiosRequestConfig;
-  
-        for (const __ in baseConfig) {
-          key = __ as any
-  
-          config[key] = {...config[key], ...baseConfig[key]}
-        }
-  
-        return config
-      })
-    },
-    setBaseResponseInterceptors: (interceptor) => {
-      axiosInstance.interceptors.response.use(interceptor as any)
-    }
   }
+}
+
+/** 设置请求拦截器 */
+export const setBaseResquestInterceptors: (baseConfig: (config: AxiosRequestConfig) => AxiosRequestConfig) => void = (createBaseConfig) => {
+  axiosInstance.interceptors.request.use(async config => {  
+    const baseConfig = createBaseConfig(config)
+    let key: keyof AxiosRequestConfig;
+
+    for (const __ in baseConfig) {
+      key = __ as any
+
+      config[key] = {...config[key], ...baseConfig[key]}
+    }
+
+    return config
+  })
+}
+/** 设置响应拦截器 */
+export const setBaseResponseInterceptors: <T = any>(interceptor: (response: T) => Promise<any>) => void = (interceptor) => {
+  axiosInstance.interceptors.response.use(interceptor as any)
 }

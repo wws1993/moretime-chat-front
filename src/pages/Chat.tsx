@@ -43,13 +43,7 @@ export default () => {
       setWords('')
 
       const res = await service.QA(msg)
-      console.log(res);
-
-      // setTimeout(() => {
-      //   const _msg = msg.length < 13 ? msg : `${msg.slice(0, 6)}...${msg.slice(msg.length - 4)}`
-
-      //   hooks.syncDialogues({msg: `I get it! ${_msg}`, user: 'Bot', t: Date.now()})
-      // }, 1000);
+      hooks.syncDialogues({msg: res.data, user: 'Bot', t: Date.now()})
     },
     /** 键盘按下监听 */
     listenKeybroad(ev: React.KeyboardEvent) {

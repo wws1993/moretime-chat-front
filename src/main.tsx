@@ -2,7 +2,7 @@
  * @Author: 武文帅 15696141050@163.com
  * @Date: 2022-12-31 16:51:33
  * @LastEditors: wws1993 15696141050@163.com
- * @LastEditTime: 2023-02-23 09:12:30
+ * @LastEditTime: 2023-02-23 11:13:32
  * @FilePath: \moretime-chat-front\src\main.tsx
  * @Description: 根目录
  * IE6腦殘粉
