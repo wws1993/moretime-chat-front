@@ -2,10 +2,11 @@ import { useState } from "react"
 
 export default () => {
   const [user, SetUser] = useState<T.User>({
-    id: 'Ad'
+    id: 'You'
   })
 
   return {
-    user
+    user,
+    client: /Mobi|Android|iPhone/i.test(window.navigator.userAgent) ? 'mobile' : 'pc'
   }
 }

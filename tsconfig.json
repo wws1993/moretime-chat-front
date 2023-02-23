@@ -27,7 +27,7 @@
       "@img/*": [ "./src/assets/images/*" ],
       "@less/*": [ "./src/assets/less/*" ],
       "@hooks/*": [ "./src/scripts/hooks/*" ],
-      "@lib/*": [ "./src/scripts/lib/*" ],
+      "@third/*": [ "./src/scripts/third/*" ],
       "@config/*": [ "./src/scripts/config/*" ],
     },
   },

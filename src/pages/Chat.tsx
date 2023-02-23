@@ -1,8 +1,9 @@
 import useMount from '@/scripts/hooks/useMount';
+import useService from '@/scripts/hooks/useService';
 import useUser from '@/scripts/hooks/useUser';
 import sys from '@less/pages/chat.module.less'
 import cx from 'classnames'
-import { createRef, useState } from 'react'
+import { createRef, useEffect, useState } from 'react'
 
 type Dialogue = {
   msg: string;
@@ -11,9 +12,10 @@ type Dialogue = {
 }
 
 export default () => {
-  const [dialogues, setDialogues] = useState<Dialogue[]>([])
+  const [dialogues, setDialogues] = useState<Dialogue[]>(JSON.parse(window.localStorage.getItem('CHATBOT_HISTORY') || '[]'))
   const [words, setWords] = useState<string>('')
-  const {user} = useUser()
+  const { user } = useUser()
+  const service = useService()
 
   const inputRef = createRef<HTMLTextAreaElement>()
   const viewRef = createRef<HTMLDivElement>()
@@ -33,18 +35,21 @@ export default () => {
     /** 自动聚焦 */
     autoFocus() { inputRef.current?.focus() },
     /** 提交发言 */
-    submit() {
+    async submit() {
       const msg = inputRef.current?.value!;
       hooks.syncDialogues({msg: msg, user: user.id, t: Date.now()});
 
       (inputRef.current!).value = '';
       setWords('')
 
-      setTimeout(() => {
-        const _msg = msg.length < 13 ? msg : `${msg.slice(0, 6)}...${msg.slice(msg.length - 4)}`
+      const res = await service.QA(msg)
+      console.log(res);
 
-        hooks.syncDialogues({msg: `I get it! ${_msg}`, user: 'Bot', t: Date.now()})
-      }, 1000);
+      // setTimeout(() => {
+      //   const _msg = msg.length < 13 ? msg : `${msg.slice(0, 6)}...${msg.slice(msg.length - 4)}`
+
+      //   hooks.syncDialogues({msg: `I get it! ${_msg}`, user: 'Bot', t: Date.now()})
+      // }, 1000);
     },
     /** 键盘按下监听 */
     listenKeybroad(ev: React.KeyboardEvent) {
@@ -56,6 +61,10 @@ export default () => {
   }
 
   useMount(hooks.autoFocus)
+
+  useEffect(() => {
+    window.localStorage.setItem('CHATBOT_HISTORY', JSON.stringify(dialogues))
+  }, [dialogues])
 
   return <div className={sys.chat}>
     <div className={sys.header}>ChatBot</div>

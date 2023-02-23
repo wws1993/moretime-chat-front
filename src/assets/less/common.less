@@ -1,6 +1,9 @@
 @import url('@less/theme.less');
 
-*{box-sizing:border-box;margin:0;padding:0;}
+*{box-sizing:border-box;margin:0;padding:0;
+  &::-webkit-scrollbar{width:7px; height:7px;}
+  &::-webkit-scrollbar-thumb{border-radius:7px; background:#0003;}
+}
 input,textarea,button{background:none; outline:none; border:none;}
 textarea,pre{font-family:'微软雅黑';}
 

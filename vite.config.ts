@@ -15,8 +15,15 @@ export default defineConfig({
       '@img': _resolve('src/assets/images'),
       '@less': _resolve('src/assets/less'),
       '@hooks': _resolve('src/scripts/hooks'),
-      '@lib': _resolve('src/scripts/libs'),
+      '@third': _resolve('src/scripts/third'),
       '@config': _resolve('src/scripts/config'),
     },
   },
+  server: {
+    proxy: {
+      '/chat': {
+        target: 'http://121.199.29.208:8080',
+      }
+    }
+  }
 })
