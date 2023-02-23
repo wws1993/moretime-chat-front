@@ -24,3 +24,5 @@
 //     return Promise.reject(response)
 //   } else return result
 // })
+
+export default {}
